@@ -4,7 +4,7 @@ import mido
 import pygame
 
 
-from models.melody import Melody, Lesson, NoteDuration
+from models.melody import Melody, Lesson, Rest, NoteDuration
 
 TEMP_MIDI_FILE = "temp.midi"
 SOUNDFONT_FILE = "soundfonts/Steinway_Model_D274_II.sf2"
@@ -42,13 +42,13 @@ def play_midi_file_with_soundfont(filename, soundfont):
 
 if __name__ == "__main__":
     # Generate the melody
-    lesson = Lesson()
-    for i in range(10):
-        melody = Melody(num_bars=1, note_durations=[NoteDuration.QUARTER], tempo=120)
+    lesson = Lesson(tempo=60, interstitial_notes=[Rest(duration=NoteDuration.WHOLE)])
+
+    for i in range(4):
+        melody = Melody(num_bars=1, note_durations=[NoteDuration.QUARTER])
         lesson.melodies.append(melody)
+
     lesson.write_to_midi_file(TEMP_MIDI_FILE)
-    # melody = Melody(num_bars=1, note_durations=[NoteDuration.QUARTER], tempo=120)
-    # melody.write_to_midi_file(TEMP_MIDI_FILE)
 
     # Play the melody
     play_midi_file(TEMP_MIDI_FILE)
